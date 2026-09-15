@@ -1,0 +1,41 @@
+const jwt = require("jsonwebtoken");
+const Customer = require("../models/customer.model");
+
+const protect = async (req, res, next) => {
+  try {
+    const token = req.cookies?.token;
+
+    if (!token) {
+      return res.status(401).json({
+        success: false,
+        message: "Unauthorized",
+      });
+    }
+    
+    const decoded = jwt.verify(
+      token,
+      process.env.JWT_SECRET || "shopkart_super_secret_jwt_key_2026"
+    );
+
+    const customer = await Customer.findById(decoded.id).select("-password");
+
+    if (!customer) {
+      return res.status(401).json({
+        success: false,
+        message: "Unauthorized",
+      });
+    }
+
+    req.user = customer;
+    req.customer = customer;
+
+    next();
+  } catch (error) {
+    return res.status(401).json({
+      success: false,
+      message: "Unauthorized",
+    });
+  }
+};
+
+module.exports = { protect };

@@ -1,0 +1,63 @@
+/* ─── Global Reset & Design Tokens ───────────────────────────────────────── */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  /* Colors */
+  --color-bg:         #0a0a14;
+  --color-surface:    rgba(20, 20, 35, 0.8);
+  --color-border:     rgba(255, 255, 255, 0.08);
+  --color-text:       #f1f5f9;
+  --color-muted:      rgba(255, 255, 255, 0.5);
+  --color-primary:    #7c3aed;
+  --color-primary-lt: #a78bfa;
+  --color-accent:     #4f46e5;
+  --color-danger:     #ef4444;
+  --color-success:    #22c55e;
+
+  /* Radius */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+
+  /* Transition */
+  --transition: 0.2s ease;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar       { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(124, 58, 237, 0.4); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(124, 58, 237, 0.7); }
+
+/* Selection */
+::selection {
+  background: rgba(124, 58, 237, 0.35);
+  color: #f1f5f9;
+}
+
+/* Remove default button styles */
+button { font-family: inherit; }
+
+/* Remove default link styles */
+a { color: inherit; }
