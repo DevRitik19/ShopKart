@@ -36,38 +36,40 @@ app.use((req, res, next) => {
     next();
 });
 
-let dbError = null;
+let dbPromise = null;
 const connectDB = async () => {
-    if (mongoose.connection.readyState >= 1) return;
-    try {
-        await mongoose.connect(process.env.MONGO_URI, {
-            serverSelectionTimeoutMS: 5000,
-        });
-        console.log("MongoDB connected");
-        dbError = null;
-    } catch (error) {
-        console.error("MongoDB connection error:", error);
-        dbError = error.message;
+    if (mongoose.connection.readyState === 1) return;
+    if (!dbPromise) {
+        dbPromise = mongoose
+            .connect(process.env.MONGO_URI, {
+                serverSelectionTimeoutMS: 8000,
+            })
+            .then(() => {
+                console.log("MongoDB connected");
+            })
+            .catch((err) => {
+                dbPromise = null;
+                console.error("MongoDB connection error:", err);
+                throw err;
+            });
     }
+    await dbPromise;
 };
-
-connectDB();
 
 // Database connection readiness check
 app.use(async (req, res, next) => {
-    if (mongoose.connection.readyState !== 1) {
+    try {
         await connectDB();
-    }
-    if (mongoose.connection.readyState !== 1) {
+        next();
+    } catch (error) {
         return res.status(503).json({
             success: false,
             message: "Database connection failed. Please whitelist your IP in MongoDB Atlas (Network Access -> 0.0.0.0/0).",
-            detail: dbError || "Connection not ready",
-            hasUri: !!process.env.MONGO_URI,
+            detail: error.message,
         });
     }
-    next();
 });
+
 
 
 // Routes
