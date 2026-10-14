@@ -351,33 +351,116 @@ body {
 }
 
 
-/* RESPONSIVE*/
+/* RESPONSIVE DESIGN ENHANCEMENTS */
 
-@media (max-width: 600px) {
-
+@media (max-width: 768px) {
   .navbar {
-    padding: 0 20px;
+    height: auto;
+    padding: 12px 18px;
+    flex-wrap: wrap;
+    row-gap: 12px;
   }
 
   .logo {
-    font-size: 23px;
+    font-size: 22px;
+  }
+
+  .nav-links {
+    order: 3;
+    width: 100%;
+    display: flex;
+    overflow-x: auto;
+    gap: 12px;
+    padding: 6px 0 4px;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .nav-links::-webkit-scrollbar {
+    display: none;
+  }
+
+  .nav-link {
+    font-size: 14px;
+    white-space: nowrap;
+    padding: 6px 12px;
+    background: #f1f5f9;
+    border-radius: 20px;
+  }
+
+  .nav-link.active {
+    background: #0f172a;
+    color: #ffffff;
+  }
+
+  .nav-link.active .wishlist-badge,
+  .nav-link.active .cart-badge {
+    color: #38bdf8;
+  }
+
+  .logout-button {
+    padding: 8px 16px;
+    font-size: 13px;
+  }
+
+  .auth-container {
+    padding: 24px 14px;
+    min-height: calc(100vh - 120px);
   }
 
   .auth-card {
-    padding: 32px 24px;
-
+    padding: 30px 20px;
     border-radius: 12px;
+    max-width: 100%;
   }
 
   .auth-card h1 {
-    font-size: 28px;
+    font-size: 26px;
+  }
+
+  .auth-card h2 {
+    font-size: 20px;
+    margin: 20px 0 8px;
+  }
+
+  .auth-card input {
+    padding: 12px 14px;
+    font-size: 15px; /* Prevents auto-zoom on iOS Safari */
+  }
+
+  .auth-card button[type="submit"] {
+    padding: 13px;
+    font-size: 15px;
+  }
+
+  .home-container {
+    padding: 24px 14px;
   }
 
   .home-card {
-    padding: 35px 24px;
+    padding: 28px 18px;
   }
 
   .home-card h1 {
-    font-size: 28px;
+    font-size: 26px;
+  }
+
+  .profile-box {
+    padding: 18px;
+  }
+}
+
+@media (max-width: 480px) {
+  .logo {
+    font-size: 20px;
+  }
+
+  .nav-link {
+    font-size: 13px;
+    padding: 5px 10px;
+  }
+
+  .auth-card {
+    padding: 24px 16px;
   }
 }

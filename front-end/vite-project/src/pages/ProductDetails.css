@@ -171,3 +171,38 @@
   font-weight: 500;
   margin-bottom: 1rem;
 }
+
+@media (max-width: 640px) {
+  .product-details-page {
+    padding: 1.25rem 1rem;
+  }
+
+  .product-details-container {
+    padding: 1.25rem;
+    gap: 1.5rem;
+  }
+
+  .product-details-image-section {
+    padding: 1rem;
+  }
+
+  .product-details-name {
+    font-size: 1.5rem;
+  }
+
+  .product-details-price {
+    font-size: 1.85rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .product-details-actions {
+    flex-direction: column;
+  }
+
+  .add-to-cart-btn,
+  .details-wishlist-btn {
+    width: 100%;
+    min-width: auto;
+  }
+}
+
