@@ -36,8 +36,24 @@ app.use((req, res, next) => {
     next();
 });
 
+// Database connection caching
+const connectDB = async () => {
+    if (mongoose.connection.readyState >= 1) return;
+    try {
+        await mongoose.connect(process.env.MONGO_URI);
+        console.log("MongoDB connected");
+    } catch (error) {
+        console.error("MongoDB connection error:", error);
+    }
+};
+
+connectDB();
+
 // Database connection readiness check
-app.use((req, res, next) => {
+app.use(async (req, res, next) => {
+    if (mongoose.connection.readyState !== 1) {
+        await connectDB();
+    }
     if (mongoose.connection.readyState !== 1) {
         return res.status(503).json({
             success: false,
@@ -61,17 +77,12 @@ app.use("/api/wishlist", wishlistRoutes);
 app.use("/api/cart", cartRoutes);
 app.use("/api/orders", orderRoutes);
 
-mongoose
-    .connect(process.env.MONGO_URI)
-    .then(() => {
-        console.log("MongoDB connected");
-    })
-    .catch((error) => {
-        console.error("MongoDB connection error:", error);
+const PORT = process.env.PORT || 5000;
+
+if (!process.env.VERCEL) {
+    app.listen(PORT, () => {
+        console.log(`Server running on port ${PORT}`);
     });
+}
 
-const PORT = 5000;
-
-app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-});
+export default app;
