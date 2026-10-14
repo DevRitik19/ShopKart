@@ -1,49 +1,35 @@
 {
   "version": 2,
-  "builds": [
+  "buildCommand": "node build.js",
+  "outputDirectory": "dist",
+  "rewrites": [
     {
-      "src": "backend/index.js",
-      "use": "@vercel/node"
+      "source": "/api/(.*)",
+      "destination": "/api/index.js"
     },
     {
-      "src": "front-end/vite-project/package.json",
-      "use": "@vercel/static-build",
-      "config": {
-        "distDir": "dist"
-      }
-    }
-  ],
-  "routes": [
-    {
-      "src": "/api/(.*)",
-      "dest": "backend/index.js"
+      "source": "/customers/(.*)",
+      "destination": "/api/index.js"
     },
     {
-      "src": "/customers/(.*)",
-      "dest": "backend/index.js"
+      "source": "/products/(.*)",
+      "destination": "/api/index.js"
     },
     {
-      "src": "/products/(.*)",
-      "dest": "backend/index.js"
+      "source": "/wishlist/(.*)",
+      "destination": "/api/index.js"
     },
     {
-      "src": "/wishlist/(.*)",
-      "dest": "backend/index.js"
+      "source": "/cart/(.*)",
+      "destination": "/api/index.js"
     },
     {
-      "src": "/cart/(.*)",
-      "dest": "backend/index.js"
+      "source": "/orders/(.*)",
+      "destination": "/api/index.js"
     },
     {
-      "src": "/orders/(.*)",
-      "dest": "backend/index.js"
-    },
-    {
-      "handle": "filesystem"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/index.html"
+      "source": "/(.*)",
+      "destination": "/index.html"
     }
   ]
 }
