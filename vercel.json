@@ -1,0 +1,46 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "backend/index.js",
+      "use": "@vercel/node"
+    },
+    {
+      "src": "front-end/vite-project/package.json",
+      "use": "@vercel/static-build"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "backend/index.js"
+    },
+    {
+      "src": "/customers/(.*)",
+      "dest": "backend/index.js"
+    },
+    {
+      "src": "/products/(.*)",
+      "dest": "backend/index.js"
+    },
+    {
+      "src": "/wishlist/(.*)",
+      "dest": "backend/index.js"
+    },
+    {
+      "src": "/cart/(.*)",
+      "dest": "backend/index.js"
+    },
+    {
+      "src": "/orders/(.*)",
+      "dest": "backend/index.js"
+    },
+    {
+      "handle": "filesystem"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "front-end/vite-project/index.html"
+    }
+  ]
+}
