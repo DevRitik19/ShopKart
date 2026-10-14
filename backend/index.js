@@ -36,14 +36,18 @@ app.use((req, res, next) => {
     next();
 });
 
-// Database connection caching
+let dbError = null;
 const connectDB = async () => {
     if (mongoose.connection.readyState >= 1) return;
     try {
-        await mongoose.connect(process.env.MONGO_URI);
+        await mongoose.connect(process.env.MONGO_URI, {
+            serverSelectionTimeoutMS: 5000,
+        });
         console.log("MongoDB connected");
+        dbError = null;
     } catch (error) {
         console.error("MongoDB connection error:", error);
+        dbError = error.message;
     }
 };
 
@@ -58,10 +62,13 @@ app.use(async (req, res, next) => {
         return res.status(503).json({
             success: false,
             message: "Database connection failed. Please whitelist your IP in MongoDB Atlas (Network Access -> 0.0.0.0/0).",
+            detail: dbError || "Connection not ready",
+            hasUri: !!process.env.MONGO_URI,
         });
     }
     next();
 });
+
 
 // Routes
 app.use("/products", productRoutes);
