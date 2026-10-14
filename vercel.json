@@ -7,7 +7,10 @@
     },
     {
       "src": "front-end/vite-project/package.json",
-      "use": "@vercel/static-build"
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "dist"
+      }
     }
   ],
   "routes": [
@@ -40,7 +43,7 @@
     },
     {
       "src": "/(.*)",
-      "dest": "front-end/vite-project/index.html"
+      "dest": "/index.html"
     }
   ]
 }
