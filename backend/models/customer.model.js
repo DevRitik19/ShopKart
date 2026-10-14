@@ -1,44 +1,61 @@
-const mongoose = require('mongoose');
-const bcrypt = require('bcryptjs');
+import mongoose from "mongoose";
 
 const customerSchema = new mongoose.Schema(
-  {
-    fullName: {
-      type: String,
-      required: [true, 'Full name is required'],
-      trim: true
+    {
+        fullName: {
+            type: String,
+            required: true,
+        },
+
+        email: {
+            type: String,
+            required: true,
+            unique: true,
+        },
+
+        password: {
+            type: String,
+            required: true,
+        },
+
+        phone: {
+            type: String,
+            required: true,
+        },
+
+        wishlist: {
+            type: [
+                {
+                    type: mongoose.Schema.Types.ObjectId,
+                    ref: "Product",
+                },
+            ],
+            default: [],
+        },
+
+        cart: {
+            type: [
+                {
+                    product: {
+                        type: mongoose.Schema.Types.ObjectId,
+                        ref: "Product",
+                        required: true,
+                    },
+                    quantity: {
+                        type: Number,
+                        default: 1,
+                        min: 1,
+                    },
+                },
+            ],
+            default: [],
+        },
     },
-    email: {
-      type: String,
-      required: [true, 'Email is required'],
-      unique: true,
-      lowercase: true,
-      trim: true
-    },
-    password: {
-      type: String,
-      required: [true, 'Password is required']
-    },
-    phone: {
-      type: String,
-      required: [true, 'Phone number is required'],
-      trim: true
-    },
-    createdAt: {
-      type: Date,
-      default: Date.now
+    {
+        timestamps: { createdAt: true, updatedAt: false }
     }
-  },
-  {
-    versionKey: false
-  }
 );
 
-// Method to compare candidate password with hashed password in database
-customerSchema.methods.comparePassword = async function (candidatePassword) {
-  return await bcrypt.compare(candidatePassword, this.password);
-};
+const Customer = mongoose.model("Customer", customerSchema);
 
-const Customer = mongoose.model('Customer', customerSchema);
-
-module.exports = Customer;
+export default Customer;

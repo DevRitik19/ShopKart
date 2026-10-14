@@ -1,23 +1,26 @@
-const express = require('express');
+import express from "express";
+
+import {
+    registerCustomer,
+    loginCustomer,
+    getCustomer,
+    logoutCustomer,
+    changePassword,
+} from "../controllers/customer.controller.js";
+
+import authMiddleware from "../middlewares/auth.middleware.js";
+
 const router = express.Router();
 
-const {
-  registerCustomer,
-  loginCustomer,
-  getMyProfile,
-  logoutCustomer,
-  changePassword
-} = require('../controllers/customer.controller');
+router.post("/register", registerCustomer);
 
-const { protect } = require('../middlewares/auth.middleware');
+router.post("/login", loginCustomer);
 
-// Public routes
-router.post('/register', registerCustomer);
-router.post('/login', loginCustomer);
+router.get("/me", authMiddleware, getCustomer);
 
-// Protected routes
-router.get('/me', protect, getMyProfile);
-router.post('/logout', protect, logoutCustomer);
-router.patch('/change-password', protect, changePassword);
+router.post("/logout", authMiddleware, logoutCustomer);
 
-module.exports = router;
+// Bonus: PATCH /customers/change-password
+router.patch("/change-password", authMiddleware, changePassword);
+
+export default router;
