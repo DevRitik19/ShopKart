@@ -232,7 +232,7 @@ const Checkout = () => {
                 type="text"
                 id="fullName"
                 name="fullName"
-                placeholder="e.g. Aarav Sharma"
+                placeholder="e.g. Virat Kohli"
                 value={formData.fullName}
                 onChange={handleChange}
                 className={formErrors.fullName ? "input-error" : ""}
