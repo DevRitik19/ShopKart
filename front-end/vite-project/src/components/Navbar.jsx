@@ -45,6 +45,26 @@ function Navbar() {
     }
   };
 
+  const [isDarkMode, setIsDarkMode] = useState(() => {
+    const saved = localStorage.getItem("shopkart-theme");
+    if (saved) return saved === "dark";
+    return window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+  });
+
+  useEffect(() => {
+    if (isDarkMode) {
+      document.documentElement.setAttribute("data-theme", "dark");
+      localStorage.setItem("shopkart-theme", "dark");
+    } else {
+      document.documentElement.removeAttribute("data-theme");
+      localStorage.setItem("shopkart-theme", "light");
+    }
+  }, [isDarkMode]);
+
+  const toggleTheme = () => {
+    setIsDarkMode((prev) => !prev);
+  };
+
   const isAuthRoute = location.pathname === "/login" || location.pathname === "/register";
 
   return (
@@ -89,15 +109,27 @@ function Navbar() {
         </Link>
       </div>
 
-      {!isAuthRoute && (
+      <div className="nav-actions">
         <button
-          className="logout-button"
-          onClick={handleLogout}
-          id="logout-button"
+          className="theme-toggle-btn"
+          onClick={toggleTheme}
+          title={isDarkMode ? "Switch to Light Mode" : "Switch to Night Mode"}
+          aria-label="Toggle theme"
+          id="theme-toggle-btn"
         >
-          Logout
+          {isDarkMode ? "☀️" : "🌙"}
         </button>
-      )}
+
+        {!isAuthRoute && (
+          <button
+            className="logout-button"
+            onClick={handleLogout}
+            id="logout-button"
+          >
+            Logout
+          </button>
+        )}
+      </div>
     </nav>
   );
 }
